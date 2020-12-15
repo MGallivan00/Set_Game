@@ -16,7 +16,7 @@ class Set {
         this.numofselected = 0;
         this.busy = true;
         setTimeout(() => {
-            this.shuffleCards();
+            //this.shuffleCards();
             this.countDown = this.startCountDown();
             this.busy = false;
         }, 500);
@@ -47,57 +47,61 @@ class Set {
         let matchedf = false;
         let matchedn = false;
         let matcheds = false;
+
         //check color
-        let color1 = this.getCardColor(card);
-        let color2 = this.getCardColor(this.cardToCheck);
-        let color3 = this.getCardColor(this.cardToCheck2);
+         let color1 = this.getCardColor(card);
+         let color2 = this.getCardColor(this.cardToCheck);
+         let color3 = this.getCardColor(this.cardToCheck2);
 
-        if(color1 === color2 && color2 === color3 && color1 === color3){
-            matchedc = true;
-        }else if(color1 !== color2 && color1 !== color3 && color2 !== color3) {
-            matchedc = true;
-        }
-        //check fill
-        let fill1 = this.getCardFill(card);
-        let fill2 = this.getCardFill(this.cardToCheck);
-        let fill3 = this.getCardFill(this.cardToCheck2);
+         if(color1 === color2 && color2 === color3) {
+             matchedc = true;
+         }
+         /*else if(color1 !== color2 && color1 !== color3 && color2 !== color3){
+             matchedc = true;
+         }*/
 
-        if(fill1 === fill2 && fill2 === fill3 && fill1 === fill3){
-            matchedf = true;
-        }else if(fill1 !== fill2 && fill1 !== fill3 && fill2 !== fill3) {
-            matchedf = true;
-        }
+         //check fill
+         let fill1 = this.getCardFill(card);
+         let fill2 = this.getCardFill(this.cardToCheck);
+         let fill3 = this.getCardFill(this.cardToCheck2);
 
-        //check number
-        let num1 = this.getCardNum(card);
-        let num2 = this.getCardNum(this.cardToCheck);
-        let num3 = this.getCardNum(this.cardToCheck2);
+         if(fill1 === fill2 && fill2 === fill3){
+             matchedf = true;
+         }else if(fill1 !== fill2 && fill1 !== fill3 && fill2 !== fill3) {
+             matchedf = true;
+         }
 
-        if(num1 === num2 && num2 === num3 && num1 == num3){
-            matchedn = true;
-        }else if(num1 !== num2 && num1 !== num3 && num2 !== num3) {
-            matchedn = true;
-        }
+         //check number
+         let num1 = this.getCardNum(card);
+         let num2 = this.getCardNum(this.cardToCheck);
+         let num3 = this.getCardNum(this.cardToCheck2);
+
+         if(num1 === num2 && num2 === num3){
+             matchedn = true;
+         }
+         if(num1 !== num2 && num1 !== num3 && num2 !== num3) {
+             matchedn = true;
+         }
 
         //check shape
         let shape1 = this.getCardShape(card);
         let shape2 = this.getCardShape(this.cardToCheck);
         let shape3 = this.getCardShape(this.cardToCheck2);
 
-        if(shape1 === shape2 && shape2 === shape3 & shape1 === shape3){
+        if(shape1 === shape2 && shape2 === shape3){
             matcheds = true;
         }else if(shape1 !== shape2 && shape1 !== shape3 && shape2 !==shape3) {
             matcheds = true;
         }
 
-        if(matchedc && matchedf && matchedn && matcheds) {
+        //if(matchedc && matchedf && matchedn && matcheds) {
+        if(matchedn){
             this.cardMatch(card, this.cardToCheck, this.cardToCheck2);
         }else{
             this.cardMisMatch(card, this.cardToCheck, this.cardToCheck2);
         }
         this.cardToCheck = null;
         this.cardToCheck2 = null;
-
     }
 
     cardMatch(card1, card2, card3) {
