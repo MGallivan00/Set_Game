@@ -1,7 +1,7 @@
 class Deck {
     constructor() {
         this.deck = [];
-        this.decklength = 100;
+        this.decklength = 60;
         this.deckleft = this.decklength;
         this.reset();
         this.shuffle();
@@ -15,8 +15,8 @@ class Deck {
 
         const colors = ['red', 'green', 'blue'];
         const nums = ['one', 'two', 'three'];
-        const fills = ['solid'];
-        const shapes = ['diamond'];
+        const fills = ['solid', 'solid'];
+        const shapes = ['diamond', 'diamond'];
         this.decklength = colors.length * fills.length * shapes.length * nums.length;
         this.deckleft = this.decklength;
 
@@ -91,9 +91,9 @@ class Set {
         this.ticker = document.getElementById('sets');
         this.pileleft = document.getElementById('pile-left');
         this.numofselected = 0;
-        this.deck = new Deck();
     }
     startGame() {
+        this.deck = new Deck();
         this.cardToCheck = null;
         this.cardToCheck2 = null;
         this.totalSets = 0;
@@ -105,7 +105,7 @@ class Set {
         this.busy = true;
         setTimeout(() => {
             this.deck.shuffle();
-            for(let i = 0; i < 3; i++) {
+            for(let i = 0; i < 12; i++) {
                 card = this.deck.deal();
                 document.getElementsByClassName('game-container')[0].appendChild(card);
             }
@@ -116,7 +116,7 @@ class Set {
         this.hideCards();
         this.timer.innerText = this.timeRemaining;
         this.ticker.innerText = this.totalSets;
-        this.pileleft.innerText = (this.deck.deckleft - 6);
+        this.pileleft.innerText = "" + (this.deck.deckleft - 12);
     }
 
     hideCards() {
@@ -344,6 +344,19 @@ class Set {
 
     victory() {
         console.log("VICTORY");
+
+        let imageNode, cardNode;
+        imageNode = document.createElement("Img");
+        cardNode = document.getElementsByClassName('pile r')[0];
+        imageNode.src = "Assets/logo.png";
+        imageNode.alt = "Logo";
+        cardNode.appendChild(imageNode);
+        cardNode.classList.add('inuse');
+
+        cardNode = document.getElementsByClassName('pile l')[0];
+        cardNode.getElementsByTagName('img')[0].remove();
+        cardNode.classList.remove('inuse');
+
         clearInterval(this.countDown);
         document.getElementById('victory-text').classList.add('visible');
     }
@@ -355,7 +368,7 @@ class Set {
 
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
-    let game = new Set(100);
+    let game = new Set(60);
 
     overlays.forEach(overlay => {
         overlay.addEventListener('click', () => {
