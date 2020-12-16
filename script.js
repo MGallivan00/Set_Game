@@ -89,6 +89,7 @@ class Set {
         this.timeRemaining = totalTime;
         this.timer = document.getElementById('time-remaining');
         this.ticker = document.getElementById('sets');
+        this.pileleft = document.getElementById('pile-left');
         this.numofselected = 0;
         this.deck = new Deck();
     }
@@ -99,11 +100,12 @@ class Set {
         this.timeRemaining = this.totalTime;
         this.matchedCards = [];
         this.numofselected = 0;
+        this.firstEmpty = false;
         let card;
         this.busy = true;
         setTimeout(() => {
             this.deck.shuffle();
-            for(let i = 0; i < 6; i++) {
+            for(let i = 0; i < 3; i++) {
                 card = this.deck.deal();
                 document.getElementsByClassName('game-container')[0].appendChild(card);
             }
@@ -114,6 +116,7 @@ class Set {
         this.hideCards();
         this.timer.innerText = this.timeRemaining;
         this.ticker.innerText = this.totalSets;
+        this.pileleft.innerText = (this.deck.deckleft - 6);
     }
 
     hideCards() {
@@ -206,6 +209,18 @@ class Set {
     move(card1, card2, card3){
     }
 */
+    checkEmpty(){
+        if(!this.firstEmpty) {
+            if (this.deck.deckleft === 0) {
+                let cardNode = document.getElementsByClassName('pile r')[0];
+                cardNode.getElementsByTagName('img')[0].remove();
+                cardNode.classList.remove('inuse');
+                this.firstEmpty = true;
+            }
+        } else if (this.matchedCards.length === this.deck.decklength) {
+            this.victory();
+        }
+    }
 
     replenish(){
         for (let i = 0; i < 3; i++) {
@@ -213,11 +228,21 @@ class Set {
             console.log(card);
             if (card !== undefined) {
                 document.getElementsByClassName('game-container')[0].appendChild(card);
-            } else if (this.matchedCards.length === this.deck.decklength) {
-                this.victory();
-            } else {
-                console.log("A");
             }
+            this.checkEmpty();
+            this.pileleft.innerText = this.deck.deckleft;
+        }
+    }
+
+    discardAnimation(){
+        if(this.totalSets === 1){
+            let imageNode, cardNode;
+            imageNode = document.createElement("Img");
+            cardNode = document.getElementsByClassName('pile l')[0];
+            imageNode.src = "Assets/logo.png";
+            imageNode.alt = "Logo";
+            cardNode.appendChild(imageNode);
+            cardNode.classList.add('inuse');
         }
     }
 
@@ -237,6 +262,7 @@ class Set {
         card3.classList.remove('selected');
         setTimeout(() => {
             this.removeMatched();
+            this.discardAnimation();
             this.replenish();
             clickReady(this);
             this.busy = false;
@@ -311,11 +337,13 @@ class Set {
     }
 
     gameOver() {
+        console.log("GAME OVER");
         clearInterval(this.countDown);
         document.getElementById('game-over-text').classList.add('visible');
     }
 
     victory() {
+        console.log("VICTORY");
         clearInterval(this.countDown);
         document.getElementById('victory-text').classList.add('visible');
     }
@@ -355,3 +383,5 @@ if(document.readyState === 'loading') {
     console.log("start");
     ready();
 }
+
+

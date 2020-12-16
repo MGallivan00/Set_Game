@@ -12,36 +12,68 @@ body {
   }
 
 .page-title{
-    color: black;
+    color: #000;
+    line-height: 20px;
+    padding-top: 6px;
+    background: #eee;
+    text-align: center;
     font-family: serif;
     font-weight: normal;
-    text-align: center;
     font-size: 6em;
-    }
-
-.game-info{
-    color: black;
-    font-size: 2em;
-    font-family: serif;
 }
 
 .pile{
     color: grey;
     height: 125px;
     width: 175px;
-    backface-visibility: hidden;
     border-radius: 12px;
     border-width: 1px;
     border-style: solid;
     transition: transform 500ms ease-in-out;
     box-shadow: 5px 5px grey;
+    font-size: 2em;
+    text-align: center;
+    overflow: hidden;
+}
+
+.pile.inuse{
+    background: radial-gradient(mediumpurple, plum);
+}
+
+.l{
+    position: absolute;
+    top: 10px;
+    left: 100px;
+}
+
+.r{
+    position: absolute;
+    top: 10px;
+    right: 100px;
+}
+
+.c{
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.a{
+    grid-row: 1;
+    grid-column: 3;
 }
 
 .game-info-container{
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
     grid-column: 1 / -1;
-    justify-content: space-between;
+    justify-content: space-evenly;
+}
+
+.game-info{
+    color: black;
+    font-size: 2em;
+    font-family: serif;
 }
 
 .game-container{
