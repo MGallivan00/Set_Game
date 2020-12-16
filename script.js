@@ -6,19 +6,23 @@ class Deck {
     }
 
     reset() {
-        this.deck = [];
+        /*const colors = ['red', 'green', 'blue'];
+        const fills = ['empty', 'partial', 'solid'];
+        const shapes = ['ellipse', 'diamond', 'squiggle'];
+        const nums = ['one', 'two', 'three'];*/
+
         const colors = ['red', 'green', 'blue'];
-        //const fills = ['empty', 'partial', 'solid'];
+        const nums = ['one', 'two', 'three'];
         const fills = ['solid'];
         const shapes = ['diamond'];
-        //const shapes = ['ellipse', 'diamond', 'squiggle'];
-        const nums = ['one', 'two', 'three'];
-        for (let color in colors) {
-            for (let fill in fills) {
-                for (let shape in shapes) {
-                    for (let num in nums) {
-                        let d = color + ' ' + fill + ' ' + shape + ' ' + num;
+
+        for (let c = 0; c < 3; c++) {
+            for (let f = 0; f < 1; f++) {
+                for (let s = 0; s < 1; s++) {
+                    for (let n = 0; n < 3; n++) {
+                        let d = colors[c] + " " + fills[f] + " " + shapes[s] + " " + nums[n];
                         this.deck.push(d);
+                        console.log(d);
                     }
                 }
             }
@@ -26,6 +30,7 @@ class Deck {
     }
 
     shuffle() {
+        console.log("shuffled");
         const {deck} = this;
         let m = deck.length, i;
         while (m) {
@@ -33,6 +38,13 @@ class Deck {
             [deck[m], deck[i]] = [deck[i], deck[m]];
         }
         return this;
+    }
+
+    findimage(card){
+        let values = card.split(" ");
+        let png = "Assets/" + values[0] + "_" + values[1] + "_" + values[2] + "_" + values[3] + ".png";
+        console.log(png);
+        return png;
     }
 
     deal() {
@@ -46,19 +58,19 @@ class Deck {
         imageNode = document.createElement("Img");
         imageNode.className = card;
         imageNode.src = this.findimage(card);
+        cardfrontNode.appendChild(imageNode);
 
         cardbackNode = document.createElement("Div")
         cardbackNode.className = "card-back card-face";
         imageNode = document.createElement("Img");
         imageNode.src = "Assets/logo.png";
         imageNode.alt = "Logo";
-        return card;
-    }
+        cardbackNode.appendChild(imageNode);
 
-    findimage(card){
-        let values = card.split(" ");
-        let png = values[0] + "_" + values[1] + "_" + values[2] + "_" + values[3] + ".png";
-        return png;
+        cardNode.appendChild(cardfrontNode);
+        cardNode.appendChild(cardbackNode);
+
+        return cardNode;
     }
 }
 
@@ -82,9 +94,11 @@ class Set {
         this.busy = true;
         setTimeout(() => {
             const deck1 = new Deck();
+            console.log(deck1.deck);
             for(let i = 0; i < 12; i++) {
                 card = deck1.deal();
-                document.appendChild(card);
+                console.log(card);
+                document.getElementsByClassName('game-container')[0].appendChild(card);
             }
             this.countDown = this.startCountDown();
             this.busy = false;
@@ -171,9 +185,9 @@ class Set {
         this.cardToCheck2 = null;
     }
 
-    move(card1, card2, card3){
+/*    move(card1, card2, card3){
 
-    }
+    }*/
 
     cardMatch(card1, card2, card3) {
         this.busy = true;
@@ -189,7 +203,7 @@ class Set {
         card1.classList.remove('selected');
         card2.classList.remove('selected');
         card3.classList.remove('selected');
-        move(card1, card2, card3);
+        //move(card1, card2, card3);
         if(this.matchedCards.length === this.cardsArray.length)
             this.victory();
     }
@@ -302,7 +316,9 @@ function ready() {
 }
 
 if(document.readyState === 'loading') {
+    console.log("loading...");
     document.addEventListener('waiting', ()=> {ready()});
 } else {
+    console.log("start");
     ready();
 }
