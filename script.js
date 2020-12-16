@@ -1,3 +1,67 @@
+class Deck {
+    constructor() {
+        this.deck = [];
+        this.reset();
+        this.shuffle();
+    }
+
+    reset() {
+        this.deck = [];
+        const colors = ['red', 'green', 'blue'];
+        //const fills = ['empty', 'partial', 'solid'];
+        const fills = ['solid'];
+        const shapes = ['diamond'];
+        //const shapes = ['ellipse', 'diamond', 'squiggle'];
+        const nums = ['one', 'two', 'three'];
+        for (let color in colors) {
+            for (let fill in fills) {
+                for (let shape in shapes) {
+                    for (let num in nums) {
+                        let d = color + ' ' + fill + ' ' + shape + ' ' + num;
+                        this.deck.push(d);
+                    }
+                }
+            }
+        }
+    }
+
+    shuffle() {
+        const {deck} = this;
+        let m = deck.length, i;
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+            [deck[m], deck[i]] = [deck[i], deck[m]];
+        }
+        return this;
+    }
+
+    deal() {
+        let card, cardNode, cardfrontNode, imageNode, cardbackNode;
+        card = this.deck.pop();
+        cardNode = document.createElement("Div");
+        cardNode.className = "card";
+
+        cardfrontNode = document.createElement("Div");
+        cardfrontNode.className = "card-front card-face";
+        imageNode = document.createElement("Img");
+        imageNode.className = card;
+        imageNode.src = this.findimage(card);
+
+        cardbackNode = document.createElement("Div")
+        cardbackNode.className = "card-back card-face";
+        imageNode = document.createElement("Img");
+        imageNode.src = "Assets/logo.png";
+        imageNode.alt = "Logo";
+        return card;
+    }
+
+    findimage(card){
+        let values = card.split(" ");
+        let png = values[0] + "_" + values[1] + "_" + values[2] + "_" + values[3] + ".png";
+        return png;
+    }
+}
+
 class Set {
     constructor(totalTime, cards) {
         this.cardsArray = cards;
@@ -14,9 +78,14 @@ class Set {
         this.timeRemaining = this.totalTime;
         this.matchedCards = [];
         this.numofselected = 0;
+        let card;
         this.busy = true;
         setTimeout(() => {
-            this.shuffleCards();
+            const deck1 = new Deck();
+            for(let i = 0; i < 12; i++) {
+                card = deck1.deal();
+                document.appendChild(card);
+            }
             this.countDown = this.startCountDown();
             this.busy = false;
         }, 500);
@@ -102,7 +171,12 @@ class Set {
         this.cardToCheck2 = null;
     }
 
+    move(card1, card2, card3){
+
+    }
+
     cardMatch(card1, card2, card3) {
+        this.busy = true;
         this.totalSets++;
         this.ticker.innerText = this.totalSets;
         this.matchedCards.push(card1);
@@ -115,6 +189,7 @@ class Set {
         card1.classList.remove('selected');
         card2.classList.remove('selected');
         card3.classList.remove('selected');
+        move(card1, card2, card3);
         if(this.matchedCards.length === this.cardsArray.length)
             this.victory();
     }

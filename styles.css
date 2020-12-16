@@ -2,6 +2,124 @@
 box-sizing: border-box;
 }
 
+html {
+min-height: 100vh;
+}
+
+body {
+    margin: 50px;
+    background: radial-gradient(antiquewhite, whitesmoke);
+  }
+
+.page-title{
+    color: black;
+    font-family: serif;
+    font-weight: normal;
+    text-align: center;
+    font-size: 6em;
+    }
+
+.game-info{
+    color: black;
+    font-size: 2em;
+    font-family: serif;
+}
+
+.pile{
+    color: grey;
+    height: 125px;
+    width: 175px;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+    transition: transform 500ms ease-in-out;
+    box-shadow: 5px 5px grey;
+}
+
+.game-info-container{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-column: 1 / -1;
+    justify-content: space-between;
+}
+
+.game-container{
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 10px;
+    margin: 50px;
+    justify-content: center;
+    perspective: 500px;
+}
+
+.card{
+    position: relative;
+    height: 175px;
+    width: 125px;
+}
+
+.card.vertical{
+    height: 125px;
+    width: 175px;
+}
+
+img {
+    max-width:100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+    transition: transform 500ms ease-in-out;
+    box-shadow: 5px 10px grey;
+}
+
+.card-back{
+    transform: rotateY(180deg);
+    background: radial-gradient(mediumpurple, plum);
+    border-color: white;
+    border-width: 2px;
+}
+
+.card-front{
+    background-color: white;
+    border-color: white;
+}
+
+.card.selected .card-front {
+    box-shadow:  0 0 5px 5px lightskyblue;
+}
+
+.card.matched .card-back{
+    transform: rotateY(0);
+}
+
+.card.matched .card-front{
+    transform: rotateY(-180deg);
+}
+
+@media (max-width: 600px) {
+    .game-container {
+        grid-template-columns: repeat(2, auto);
+    }
+    .game-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
 .overlay-text {
     display: none;
     position: fixed;
@@ -37,96 +155,6 @@ box-sizing: border-box;
     }
 }
 
-html {
-min-height: 100vh;
-}
-
-body {
-    margin: 50px;
-    background: radial-gradient(antiquewhite, whitesmoke);
-  }
-
-.page-title{
-    color: black;
-    font-family: serif;
-    font-weight: normal;
-    text-align: center;
-    font-size: 6em;
-    }
-
-.game-info{
-    color: black;
-    font-size: 2em;
-    font-family: serif;
-}
-
-.game-info-container{
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-}
-
-.game-container{
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-gap: 10px;
-    margin: 50px;
-    justify-content: center;
-    perspective: 500px;
-}
-
-.card{
-    position: relative;
-    height: 175px;
-    width: 125px;
-}
-
-img {
-    max-width:100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    border-width: 1px;
-    border-style: solid;
-    transition: transform 500ms ease-in-out;
-    box-shadow: 5px 10px grey;
-}
-
-
-.card.selected .card-front {
-    box-shadow:  0 0 5px 5px lightskyblue;
-}
-
-.card-front{
-    background-color: white;
-    border-color: white;
-}
-
-.card-value {
-    transform: scale(.9);
-    transition: transform 100ms ease-in-out;
-}
-
-.card-front:hover .card-value{
-    transform: scale(1);
-}
-
-.card.matched .card-front{
-    background-color: black;
-    border-color: black;
-}
-
 @keyframes dance{
     0%, 100% {
     transform: rotate(0);
@@ -137,80 +165,4 @@ img {
     75% {
     transform: rotate(30deg);
     }
-}
-
-
-
-/*
-.cob-web {
-    position: absolute;
-    width: 47px;
-    height: 47px;
-    transition: width 100ms ease-in-out, height 100ms ease-in-out;
-}
-
-.card-face:hover .cobweb {
-    width: 52px;
-    height: 52px;
-}
-
-.cob-web-top-left {
-    transform: rotate(270deg);
-    top: 0;
-    left: 0;
-}
-
-.diamond{
-    align-self: flex-start;
-    transform: translateY(-10px);
-    transition: transform 100ms ease-in-out;
-}
-
-.card-front:hover .spider {
-    transform: translateY(0)
-}
- */
-
-@media (max-width: 600px) {
-    .game-container {
-        grid-template-columns: repeat(2, auto);
-    }
-    .game-info-container {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-#diamond {
-    width: 80px;
-    height: 80px;
-    background: blue;
-    margin: 3px 0 0 30px;
-    /* Rotate */
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    /* Rotate Origin */
-    -webkit-transform-origin: 0 100%;
-    -moz-transform-origin: 0 100%;
-    -ms-transform-origin: 0 100%;
-    -o-transform-origin: 0 100%;
-    transform-origin: 0 100%;
-}
-
-#oval {
-    width: 200px;
-    height: 100px;
-    background: blue;
-    -moz-border-radius: 100px / 50px;
-    -webkit-border-radius: 100px / 50px;
-    border-radius: 100px / 50px;
-}
-
-#squiggle {
-    width: 140px;
-    height: 80px;
-    background: blue;
 }
